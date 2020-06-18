@@ -1,0 +1,79 @@
+{
+  "name": "api_com_loopback-test",
+  "version": "1.0.0",
+  "description": "api_com_loopback-test",
+  "keywords": [
+    "loopback-application",
+    "loopback"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "build": "lb-tsc",
+    "build:watch": "lb-tsc --watch",
+    "lint": "npm run prettier:check && npm run eslint",
+    "lint:fix": "npm run eslint:fix && npm run prettier:fix",
+    "prettier:cli": "lb-prettier \"**/*.ts\" \"**/*.js\"",
+    "prettier:check": "npm run prettier:cli -- -l",
+    "prettier:fix": "npm run prettier:cli -- --write",
+    "eslint": "lb-eslint --report-unused-disable-directives .",
+    "eslint:fix": "npm run eslint -- --fix",
+    "pretest": "npm run clean && npm run build",
+    "test": "lb-mocha --allow-console-logs \"dist/__tests__\"",
+    "posttest": "npm run lint",
+    "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
+    "docker:build": "docker build -t api_com_loopback-test .",
+    "docker:run": "docker run -p 3000:3000 -d api_com_loopback-test",
+    "migrate": "node ./dist/migrate",
+    "openapi-spec": "node ./dist/openapi-spec",
+    "prestart": "npm run build",
+    "start": "node -r source-map-support/register .",
+    "clean": "lb-clean dist *.tsbuildinfo .eslintcache"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "author": "",
+  "license": "",
+  "files": [
+    "README.md",
+    "dist",
+    "src",
+    "!*/__tests__"
+  ],
+  "dependencies": {
+    "@loopback/authentication": "^4.2.7",
+    "@loopback/authentication-jwt": "^0.4.1",
+    "@loopback/boot": "^2.3.3",
+    "@loopback/core": "^2.8.0",
+    "@loopback/openapi-v3": "^3.4.3",
+    "@loopback/repository": "^2.7.0",
+    "@loopback/rest": "^5.1.1",
+    "@loopback/rest-crud": "^0.8.7",
+    "@loopback/rest-explorer": "^2.2.4",
+    "@loopback/service-proxy": "^2.3.2",
+    "loopback-connector-mysql": "^5.4.3",
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@loopback/build": "^5.4.3",
+    "@loopback/eslint-config": "^8.0.1",
+    "@loopback/testlab": "^3.1.7",
+    "@types/node": "^10.17.26",
+    "eslint": "^7.2.0",
+    "nodemon": "^2.0.4",
+    "source-map-support": "^0.5.19",
+    "typescript": "~3.9.5"
+  },
+  "nodemonConfig": {
+    "verbose": true,
+    "watch": [
+      "src/"
+    ],
+    "ext": ".ts",
+    "exec": "npm start"
+  }
+}
